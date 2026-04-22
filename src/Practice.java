@@ -1,5 +1,8 @@
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
 public class Practice {
@@ -25,7 +28,32 @@ public class Practice {
    * @return the number of vertices with odd values reachable from the starting vertex
    */
   public static int oddVertices(Vertex<Integer> starting) {
-    return 0;
+    if (starting == null) return 0;
+
+    Set<Vertex<Integer>> visited = new HashSet<>();
+    Queue <Vertex<Integer>> queue = new LinkedList<>();
+    queue.add(starting);
+
+    int count = 0;
+
+    while (!queue.isEmpty()) {
+      Vertex<Integer> current = queue.poll();
+
+      if (visited.contains(current)) continue;
+
+      visited.add(current);
+
+      if (current.data % 2 != 0) {
+        count++;
+      }
+
+      for (Vertex<Integer> neighbor : current.neighbors) {
+        if (!visited.contains(neighbor)){
+          queue.add(neighbor);
+        }
+      }
+    }
+    return count;
   }
 
   /**
