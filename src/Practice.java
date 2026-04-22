@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -75,8 +77,43 @@ public class Practice {
    * @return a sorted list of all reachable vertex values by 
    */
   public static List<Integer> sortedReachable(Vertex<Integer> starting) {
-    return null;
+    if (starting == null) return new ArrayList<>();
+    
+    Set<Vertex<Integer>> visited = new HashSet<>();
+    List<Integer> list = new ArrayList<>();
+
+    sortReachableHelper(starting, visited, list);
+
+    Collections.sort(list);
+
+    return list;
   }
+
+  // does BFS graph traversal to create the list
+  public static void sortReachableHelper(Vertex<Integer> current, Set<Vertex<Integer>> visited, List<Integer> list) {
+    Queue <Vertex<Integer>> queue = new LinkedList<>();
+    queue.add(current);
+    
+
+    while (!queue.isEmpty()) {
+      Vertex<Integer> node = queue.poll();
+
+      if (visited.contains(node)) continue; // if visited contains vertex, dont process this node at all
+
+      visited.add(node);
+      list.add(node.data);
+
+      for (Vertex<Integer> neighbor : node.neighbors) {
+        if (!visited.contains(neighbor)) {
+          queue.add(neighbor);
+        }
+      }
+    }
+  }
+
+
+
+  
 
   /**
    * Returns a sorted list of all values reachable from the given starting vertex in the provided graph.
