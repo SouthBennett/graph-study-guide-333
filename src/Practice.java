@@ -164,6 +164,30 @@ public class Practice {
    * @return true if there is a two-way connection between v1 and v2, false otherwise
    */
   public static <T> boolean twoWay(Vertex<T> v1, Vertex<T> v2) {
+    if (v1 == null || v2 == null) return false;
+
+    return bfs(v1, v2) && bfs(v2, v1);
+  }
+
+  public static <T> boolean bfs(Vertex<T> start, Vertex<T> target) {
+    Queue<Vertex<T>> queue = new LinkedList<>();
+    Set<Vertex<T>> visited = new HashSet<>();
+
+    queue.add(start);
+    visited.add(start);
+
+    while(!queue.isEmpty()) {
+      Vertex<T> current = queue.poll();
+
+      if (current.equals(target)) return true;
+
+      for (Vertex<T> neighbor : current.neighbors) {
+        if (!visited.contains(neighbor)) {
+          visited.add(neighbor);
+          queue.add(neighbor);
+        }
+      }
+    }
     return false;
   }
 
