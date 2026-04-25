@@ -111,10 +111,6 @@ public class Practice {
     }
   }
 
-
-
-  
-
   /**
    * Returns a sorted list of all values reachable from the given starting vertex in the provided graph.
    * The graph is represented as a map where each key is a vertex and its corresponding value is a set of neighbors.
@@ -126,7 +122,31 @@ public class Practice {
    * @return a sorted list of all reachable vertex values
    */
   public static List<Integer> sortedReachable(Map<Integer, Set<Integer>> graph, int starting) {
-    return null;
+    if (!graph.containsKey(starting)) return new ArrayList<>();
+
+    Queue<Integer> queue = new LinkedList<>();
+
+    Set<Integer> visited = new HashSet<>();
+
+    queue.add(starting);
+    visited.add(starting);
+
+    while (!queue.isEmpty()) {
+      int current = queue.poll();
+      Set<Integer> neighbors = graph.get(current);
+
+      for (int neighbor : neighbors) {
+        if (!visited.contains(neighbor)) {
+          queue.add(neighbor);
+          visited.add(neighbor);
+        }
+      }
+    }
+
+    List<Integer> result = new ArrayList<>(visited);
+    Collections.sort(result);
+
+    return result;
   }
 
   /**
