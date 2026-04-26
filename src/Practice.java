@@ -34,6 +34,8 @@ public class Practice {
 
     Set<Vertex<Integer>> visited = new HashSet<>();
     Queue <Vertex<Integer>> queue = new LinkedList<>();
+
+    visited.add(starting);
     queue.add(starting);
 
     int count = 0;
@@ -41,16 +43,13 @@ public class Practice {
     while (!queue.isEmpty()) {
       Vertex<Integer> current = queue.poll();
 
-      if (visited.contains(current)) continue;
-
-      visited.add(current);
-
       if (current.data % 2 != 0) {
         count++;
       }
 
       for (Vertex<Integer> neighbor : current.neighbors) {
         if (!visited.contains(neighbor)){
+          visited.add(neighbor);
           queue.add(neighbor);
         }
       }
@@ -347,7 +346,7 @@ public class Practice {
         if (newRow >= 0 && newRow > board.length && 
           newCol >= 0 && newCol > board[0].length && 
           board[newRow][newCol] == 'X') {
-            
+
             result.add(new int[]{newRow, newCol});
         }
       }
