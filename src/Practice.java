@@ -31,62 +31,62 @@ public class Practice {
    * @return the number of vertices with odd values reachable from the starting vertex
    */
   //DFS
-  public static int oddVertices(Vertex<Integer> starting) {
-    if (starting == null) return 0;
-
-    Stack<Vertex<Integer>> stack = new Stack<>();
-    Set<Vertex<Integer>> visited = new HashSet<>();
-
-    int count = 0;
-
-    visited.add(starting);
-    stack.push(starting);
-
-    while (!stack.isEmpty()) {
-      Vertex<Integer> current = stack.pop();
-
-      if (current.data % 2 != 0) {
-        count++;
-      }
-
-      for (Vertex<Integer> neighbor : current.neighbors) {
-        if (!visited.contains(neighbor)) {
-          visited.add(neighbor);
-          stack.push(neighbor);
-        }
-      }
-    }
-    return count;
-  }
-
-  //BFS
   // public static int oddVertices(Vertex<Integer> starting) {
   //   if (starting == null) return 0;
 
+  //   Stack<Vertex<Integer>> stack = new Stack<>();
   //   Set<Vertex<Integer>> visited = new HashSet<>();
-  //   Queue <Vertex<Integer>> queue = new LinkedList<>();
-
-  //   visited.add(starting);
-  //   queue.add(starting);
 
   //   int count = 0;
 
-  //   while (!queue.isEmpty()) {
-  //     Vertex<Integer> current = queue.poll();
+  //   visited.add(starting);
+  //   stack.push(starting);
+
+  //   while (!stack.isEmpty()) {
+  //     Vertex<Integer> current = stack.pop();
 
   //     if (current.data % 2 != 0) {
   //       count++;
   //     }
 
   //     for (Vertex<Integer> neighbor : current.neighbors) {
-  //       if (!visited.contains(neighbor)){
+  //       if (!visited.contains(neighbor)) {
   //         visited.add(neighbor);
-  //         queue.add(neighbor);
+  //         stack.push(neighbor);
   //       }
   //     }
   //   }
   //   return count;
   // }
+
+  //BFS
+  public static int oddVertices(Vertex<Integer> starting) {
+    if (starting == null) return 0;
+
+    Set<Vertex<Integer>> visited = new HashSet<>();
+    Queue <Vertex<Integer>> queue = new LinkedList<>();
+
+    visited.add(starting);
+    queue.add(starting);
+
+    int count = 0;
+
+    while (!queue.isEmpty()) {
+      Vertex<Integer> current = queue.poll();
+
+      if (current.data % 2 != 0) {
+        count++;
+      }
+
+      for (Vertex<Integer> neighbor : current.neighbors) {
+        if (!visited.contains(neighbor)){
+          visited.add(neighbor);
+          queue.add(neighbor);
+        }
+      }
+    }
+    return count;
+  }
 
   /**
    * Returns a *sorted* list of all values reachable from the starting vertex (including the starting vertex itself).
@@ -115,7 +115,6 @@ public class Practice {
     List<Integer> list = new ArrayList<>();
 
     visited.add(starting);
-    list.add(starting.data);
     queue.add(starting);
 
     while (!queue.isEmpty()) {
@@ -374,9 +373,9 @@ public class Practice {
         int newRow = row + dir[0];
         int newCol = col + dir[1];
         
-        if (newRow >= 0 && newRow > board.length && 
-          newCol >= 0 && newCol > board[0].length && 
-          board[newRow][newCol] == 'X') {
+        if (newRow >= 0 && newRow < board.length && 
+          newCol >= 0 && newCol < board[0].length && 
+          board[newRow][newCol] != 'X') {
 
             result.add(new int[]{newRow, newCol});
         }
