@@ -29,6 +29,7 @@ public class Practice {
    * @param starting the starting vertex (may be null)
    * @return the number of vertices with odd values reachable from the starting vertex
    */
+  //BFS
   public static int oddVertices(Vertex<Integer> starting) {
     if (starting == null) return 0;
 
@@ -75,39 +76,34 @@ public class Practice {
    * @param starting the starting vertex (may be null)
    * @return a sorted list of all reachable vertex values by 
    */
+  //BFS
   public static List<Integer> sortedReachable(Vertex<Integer> starting) {
     if (starting == null) return new ArrayList<>();
-    
+
+    Queue <Vertex<Integer>> queue = new LinkedList<>();
     Set<Vertex<Integer>> visited = new HashSet<>();
     List<Integer> list = new ArrayList<>();
 
-    sortReachableHelper(starting, visited, list);
-
-    Collections.sort(list);
-
-    return list;
-  }
-
-  // does BFS graph traversal to create the list
-  public static void sortReachableHelper(Vertex<Integer> current, Set<Vertex<Integer>> visited, List<Integer> list) {
-    Queue <Vertex<Integer>> queue = new LinkedList<>();
-    queue.add(current);
-    
+    visited.add(starting);
+    list.add(starting.data);
+    queue.add(starting);
 
     while (!queue.isEmpty()) {
-      Vertex<Integer> node = queue.poll();
+      Vertex<Integer> current = queue.poll();
 
-      if (visited.contains(node)) continue; // if visited contains vertex, dont process this node at all
+      list.add(current.data);
 
-      visited.add(node);
-      list.add(node.data);
-
-      for (Vertex<Integer> neighbor : node.neighbors) {
+      for (Vertex<Integer> neighbor : current.neighbors) {
         if (!visited.contains(neighbor)) {
+          visited.add(neighbor);
           queue.add(neighbor);
         }
       }
     }
+
+    Collections.sort(list);
+
+    return list;
   }
 
   /**
@@ -120,6 +116,7 @@ public class Practice {
    * @param starting the starting vertex value
    * @return a sorted list of all reachable vertex values
    */
+  //BFS
   public static List<Integer> sortedReachable(Map<Integer, Set<Integer>> graph, int starting) {
     if (!graph.containsKey(starting)) return new ArrayList<>();
 
@@ -162,9 +159,11 @@ public class Practice {
    * @param v2 the target vertex
    * @return true if there is a two-way connection between v1 and v2, false otherwise
    */
+  //BFS
   public static <T> boolean twoWay(Vertex<T> v1, Vertex<T> v2) {
     if (v1 == null || v2 == null) return false;
 
+    
     return bfs(v1, v2) && bfs(v2, v1);
   }
 
@@ -172,8 +171,8 @@ public class Practice {
     Queue<Vertex<T>> queue = new LinkedList<>();
     Set<Vertex<T>> visited = new HashSet<>();
 
-    queue.add(start);
     visited.add(start);
+    queue.add(start);
 
     while(!queue.isEmpty()) {
       Vertex<T> current = queue.poll();
@@ -202,6 +201,7 @@ public class Practice {
    * @param ending the ending vertex value
    * @return whether there exists a valid positive path from starting to ending
    */
+  //BFS
   public static boolean positivePathExists(Map<Integer, Set<Integer>> graph, int starting, int ending) {
     if (starting <= 0 || ending <= 0 || 
       !graph.containsKey(starting) || 
@@ -241,6 +241,7 @@ public class Practice {
    * @param companyName the name of the company to check for employment
    * @return true if a person in the extended network works at the specified company, false otherwise
    */
+  //BFS
   public static boolean hasExtendedConnectionAtCompany(Professional person, String companyName) {
     if (person == null) return false;
 
