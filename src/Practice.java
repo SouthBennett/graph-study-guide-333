@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+import java.util.Stack;
 
 public class Practice {
 
@@ -29,34 +30,63 @@ public class Practice {
    * @param starting the starting vertex (may be null)
    * @return the number of vertices with odd values reachable from the starting vertex
    */
-  //BFS
+  //DFS
   public static int oddVertices(Vertex<Integer> starting) {
     if (starting == null) return 0;
 
+    Stack<Vertex<Integer>> stack = new Stack<>();
     Set<Vertex<Integer>> visited = new HashSet<>();
-    Queue <Vertex<Integer>> queue = new LinkedList<>();
-
-    visited.add(starting);
-    queue.add(starting);
 
     int count = 0;
 
-    while (!queue.isEmpty()) {
-      Vertex<Integer> current = queue.poll();
+    visited.add(starting);
+    stack.push(starting);
+
+    while (!stack.isEmpty()) {
+      Vertex<Integer> current = stack.pop();
 
       if (current.data % 2 != 0) {
         count++;
       }
 
       for (Vertex<Integer> neighbor : current.neighbors) {
-        if (!visited.contains(neighbor)){
+        if (!visited.contains(neighbor)) {
           visited.add(neighbor);
-          queue.add(neighbor);
+          stack.push(neighbor);
         }
       }
     }
     return count;
   }
+
+  //BFS
+  // public static int oddVertices(Vertex<Integer> starting) {
+  //   if (starting == null) return 0;
+
+  //   Set<Vertex<Integer>> visited = new HashSet<>();
+  //   Queue <Vertex<Integer>> queue = new LinkedList<>();
+
+  //   visited.add(starting);
+  //   queue.add(starting);
+
+  //   int count = 0;
+
+  //   while (!queue.isEmpty()) {
+  //     Vertex<Integer> current = queue.poll();
+
+  //     if (current.data % 2 != 0) {
+  //       count++;
+  //     }
+
+  //     for (Vertex<Integer> neighbor : current.neighbors) {
+  //       if (!visited.contains(neighbor)){
+  //         visited.add(neighbor);
+  //         queue.add(neighbor);
+  //       }
+  //     }
+  //   }
+  //   return count;
+  // }
 
   /**
    * Returns a *sorted* list of all values reachable from the starting vertex (including the starting vertex itself).
